@@ -1,0 +1,79 @@
+openapi: 3.0.0
+info:
+  title: IntellijSave API
+  version: 1.0.0
+  description: API pour gérer les réservations de paniers anti-gaspillage pour étudiants
+
+servers:
+  - url: http://127.0.0.1:5000
+    description: Serveur local de développement
+
+paths:
+  /api/reservations:
+    post:
+      summary: Créer une réservation
+      description: Permet à un étudiant de réserver un panier et recevoir un code unique
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - panier
+                - campus
+                - code
+                - date
+              properties:
+                panier:
+                  type: string
+                  example: "Panier complet – 5€"
+                campus:
+                  type: string
+                  example: "Crous Toulouse"
+                code:
+                  type: string
+                  example: "INTJ-ABC12345"
+                date:
+                  type: string
+                  format: date-time
+                  example: "2026-01-08T11:50:00Z"
+      responses:
+        '200':
+          description: Réservation ajoutée
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Réservation ajoutée"
+                  code:
+                    type: string
+                    example: "INTJ-ABC12345"
+
+    get:
+      summary: Lister toutes les réservations
+      description: Récupère toutes les réservations enregistrées dans SQLite
+      responses:
+        '200':
+          description: Liste des réservations
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    panier:
+                      type: string
+                    campus:
+                      type: string
+                    code:
+                      type: string
+                    date:
+                      type: string
+                      format: date-time

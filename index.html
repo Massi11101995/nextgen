@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IntellijSave – Anti-gaspillage étudiant</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+ /* ===== Reset & Fonts ===== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+body {
+  font-family: 'Roboto', sans-serif;
+  background: #121416;
+  color: #e0e0e0;
+  line-height: 1.6;
+  overflow-x: hidden;
+  transition: background 0.3s, color 0.3s;
+}
+
+/* ===== Navbar ===== */
+header {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  background: #1b1e23;
+  color: #fff;
+  z-index: 1000;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+  transition: background 0.3s;
+}
+.navbar {
+  max-width: 1200px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 30px;
+}
+.logo {
+  font-size: 1.9rem;
+  font-weight: 900;
+  letter-spacing: 1px;
+  color: #37b182;
+}
+nav a {
+  color: #e0e0e0;
+  margin-left: 30px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1rem;
+  position: relative;
+  transition: color 0.3s;
+}
+nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 0;
+  height: 2px;
+  background: #37b182;
+  transition: width 0.3s ease;
+}
+nav a:hover {
+  color: #37b182;
+}
+nav a:hover::after {
+  width: 100%;
+}
+.burger {
+  display: none;
+  cursor: pointer;
+  flex-direction: column;
+  gap: 5px;
+}
+.burger div {
+  width: 25px;
+  height: 3px;
+  background: #e0e0e0;
+  border-radius: 3px;
+}
+
+/* ===== Hero ===== */
+.hero {
+  background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.4)),
+              url('images/header2.jpg') center/cover no-repeat;
+  height: 450px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: #ffffff;
+  padding: 0 20px;
+  margin-top: 65px;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeUp 1s forwards;
+}
+.hero h1 {
+  font-size: 3.2rem;
+  font-weight: 800;
+  margin-bottom: 15px;
+  text-shadow: 2px 2px 12px rgba(0,0,0,0.7);
+}
+.hero p {
+  font-size: 1.3rem;
+  margin-bottom: 25px;
+  text-shadow: 1px 1px 8px rgba(0,0,0,0.7);
+}
+.hero button {
+  background: linear-gradient(135deg, #2c7a55, #37b182);
+  color: white;
+  border: none;
+  padding: 16px 35px;
+  border-radius: 50px;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: 0.4s;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+}
+.hero button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 25px rgba(0,0,0,0.6);
+}
+
+/* ===== Sections ===== */
+section {
+  max-width: 1100px;
+  margin: 80px auto;
+  padding: 0 20px;
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeUp 0.8s forwards;
+}
+h2 {
+  color: #37b182;
+  margin-bottom: 25px;
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 700;
+  position: relative;
+}
+h2::after {
+  content: "";
+  display: block;
+  width: 60px;
+  height: 3px;
+  background: #37b182;
+  margin: 10px auto 0 auto;
+  border-radius: 2px;
+}
+
+/* ===== Cards ===== */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 25px;
+}
+.card {
+  background: #1b1e23;
+  padding: 25px;
+  border-radius: 18px;
+  box-shadow: 0 12px 28px rgba(0,0,0,0.5);
+  transition: 0.4s, transform 0.5s;
+}
+.card:hover {
+  transform: translateY(-10px) scale(1.03);
+  box-shadow: 0 18px 35px rgba(0,0,0,0.7);
+}
+.card h3 {
+  margin-bottom: 15px;
+  color: #37b182;
+  font-size: 1.3rem;
+}
+
+/* ===== Call-to-action ===== */
+.cta {
+  background: #1b1e23;
+  text-align: center;
+  padding: 60px 20px;
+  border-radius: 18px;
+  box-shadow: 0 12px 28px rgba(0,0,0,0.5);
+}
+.cta button {
+  background: linear-gradient(135deg, #2c7a55, #37b182);
+  color: white;
+  padding: 16px 35px;
+  border-radius: 50px;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: 0.4s;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+}
+.cta button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 25px rgba(0,0,0,0.6);
+}
+
+/* ===== Footer ===== */
+footer {
+  text-align: center;
+  padding: 25px 10px;
+  font-size: 0.9rem;
+  color: #aaa;
+  background: #1b1e23;
+}
+
+/* ===== Modal ===== */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1001;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(18,20,22,0.85);
+  backdrop-filter: blur(4px);
+}
+.modal-content {
+  background: #1b1e23;
+  max-width: 500px;
+  max-height: 85vh;
+  overflow-y: auto;
+  margin: 5% auto;
+  padding: 35px 30px;
+  border-radius: 18px;
+  text-align: center;
+  box-shadow: 0 12px 28px rgba(0,0,0,0.7);
+  color: #e0e0e0;
+  transition: 0.3s;
+}
+.modal-content input, 
+.modal-content select {
+  width: 100%;
+  padding: 14px 16px;
+  margin: 12px 0;
+  border-radius: 12px;
+  border: 1px solid #555;
+  background: #121416;
+  color: #e0e0e0;
+  transition: 0.3s;
+  font-size: 1rem;
+}
+.modal-content input:focus,
+.modal-content select:focus {
+  outline: none;
+  border-color: #37b182;
+  box-shadow: 0 0 12px rgba(55,177,130,0.5);
+}
+.modal-content button {
+  margin-top: 12px;
+  padding: 14px 30px;
+  font-weight: 700;
+  border-radius: 50px;
+  cursor: pointer;
+  border: none;
+  transition: 0.4s;
+}
+.modal-content button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(0,0,0,0.6);
+}
+.close-btn {
+  background: #2a2d33;
+  color: #fff;
+}
+
+/* ===== Partenaires ===== */
+#partenaires img {
+  max-height: 60px;
+  filter: grayscale(70%);
+  transition: 0.3s, transform 0.3s;
+}
+#partenaires img:hover {
+  filter: grayscale(0%);
+  transform: scale(1.08);
+}
+
+/* ===== Animations ===== */
+@keyframes fadeUp {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== Responsive ===== */
+@media(max-width:768px){
+  nav { 
+    display: none; 
+    flex-direction: column; 
+    background: #1b1e23; 
+    width: 100%; 
+    position: absolute; 
+    top: 65px; 
+    left: 0; 
+    padding: 15px 0; 
+  }
+  nav.show { display: flex; }
+  .burger { display: flex; }
+  .hero h1 { font-size: 2.2rem; }
+  .hero p { font-size: 1rem; }
+}
+
+
+
+/* ===== Impact écologique ===== */
+.impact-box {
+  margin-top: 25px;
+  padding: 20px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(55,177,130,0.15), rgba(44,122,85,0.25));
+  border: 1px solid rgba(55,177,130,0.4);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+  animation: impactFade 0.8s ease-out forwards;
+}
+
+.impact-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #37b182;
+  margin-bottom: 10px;
+}
+
+.impact-values {
+  font-size: 1rem;
+  margin: 6px 0;
+}
+
+.impact-highlight {
+  font-weight: 800;
+  color: #ffffff;
+}
+
+@keyframes impactFade {
+  from {
+    opacity: 0;
+    transform: translateY(15px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="navbar">
+    <div class="logo">IntellijSave</div>
+     <div style="display:flex; align-items:center; gap:10px;">
+      <div class="menu-icon" style="display:flex; flex-direction:column; justify-content:center; cursor:pointer;">
+        <div style="width:20px; height:3px; background:white; margin:3px 0; border-radius:2px;"></div>
+        <div style="width:20px; height:3px; background:white; margin:3px 0; border-radius:2px;"></div>
+        <div style="width:20px; height:3px; background:white; margin:3px 0; border-radius:2px;"></div>
+      </div>
+    <nav id="nav-links">
+      <a href="#" onclick="openReservation(); return false;">Réserver</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <div class="burger" onclick="toggleMenu()">
+      <div></div><div></div><div></div>
+    </div>
+  </div>
+</header>
+
+<div class="hero">
+  <h1>Anti-gaspillage pour étudiants</h1>
+  <p>Des paniers alimentaires à prix réduit directement sur vos campus</p>
+  <button onclick="openReservation()">Réserver un panier</button>
+</div>
+
+<section id="concept">
+  <h2>Le concept</h2>
+  <p style="text-align:center;">IntellijSave lutte contre le gaspillage alimentaire en proposant aux étudiants des paniers alimentaires à prix réduit directement sur les campus universitaires, en partenariat avec le CROUS et le fournisseur Hyperfresh.</p>
+</section>
+
+<section id="comment">
+  <h2>Comment ça marche ?</h2>
+  <div class="cards">
+    <div class="card"><h3>1. Récupération</h3><p>Les invendus alimentaires encore consommables sont collectés de chez Hyperfresh.</p></div>
+    <div class="card"><h3>2. Distribution</h3><p>Les paniers sont livrés dans les campus et résidences CROUS.</p></div>
+    <div class="card"><h3>3. Réservation</h3><p>Les étudiants réservent leur panier via l’application.</p></div>
+  </div>
+</section>
+
+<section id="pourquoi">
+  <h2>Pourquoi IntellijSave ?</h2>
+  <div class="cards">
+    <div class="card"><h3>🎓 100% étudiant</h3><p>Des prix adaptés au budget étudiant.</p></div>
+    <div class="card"><h3>🌱 Anti-gaspillage</h3><p>Chaque panier sauvé évite le gaspillage alimentaire.</p></div>
+    <div class="card"><h3>🤝 Institutionnel</h3><p>Collaboration avec les universités et le CROUS.</p></div>
+  </div>
+</section>
+
+<section id="contact" class="cta">
+  <h2>Contactez-nous</h2>
+  <p>Intégration prochaine dans tous les sites des campus, universités et CROUS de France.</p>
+  <div style="display:flex; justify-content:center; gap:20px; flex-wrap:wrap; margin-top:20px;">
+    <a href="tel:+32466092511"><button> Appeler</button></a>
+    <a href="mailto:contact@intellijsave.fr"><button> Envoyer un email</button></a>
+  </div>
+</section>
+
+
+
+<section id="partenaires" style="background:#f0f0f0; padding:40px 20px; text-align:center;">
+  <h2 style="color:#1e7f5c; margin-bottom:30px;">Nos partenariats</h2>
+  <div style="display:flex; justify-content:center; align-items:center; gap:50px; flex-wrap:wrap; margin-top:30px;">
+    <div><img src="images/med.jpg" alt="" style="max-height:60px;"><p style="font-size:0.9rem; color:#666;">Ministère de l'Éducation nationale</p></div>
+    <div><img src="images/crous.png" alt="" style="max-height:60px;"><p style="font-size:0.9rem; color:#666;">CROUS</p></div>
+    <div><img src="images/hyperfresh.jpeg" alt="" style="max-height:90px;"><p style="font-size:0.9rem; color:#666;">Hyperfresh</p></div>
+  </div>
+</section>
+
+<footer>
+  <p>IntellijSave © 2026 – Projet NextGen – France</p>
+</footer>
+
+
+<div id="reservationModal" class="modal">
+  <div class="modal-content">
+    <h2>Réserver un panier</h2>
+    <select id="basket">
+      <option value="Panier fruits & légumes – 2€">Panier fruits & légumes – 2€</option>
+      <option value="Panier fruits & légumes + une viande – 3€">Panier fruits & légumes + une viande – 3€</option>
+      <option value="Panier complet – 5€">Panier complet – 5€</option>
+    </select>
+
+    <select id="specialBasket">
+      <option value="">-- Panier spécifique (optionnel) --</option>
+      <option value="Sans gluten">Sans gluten</option>
+      <option value="Sans lactose">Sans lactose</option>
+      <option value="Vegan">Vegan</option>
+      <option value="Végétarien">Végétarien</option>
+    </select>
+
+    <select id="ville"><option value="">-- Choisissez votre ville --</option></select>
+    <select id="campus" disabled><option value="">-- Choisissez votre campus ou CROUS --</option></select>
+
+    <button onclick="confirmReservation()">Confirmer</button>
+    <button class="close-btn" onclick="closeReservation()">Annuler</button>
+    <p style="font-size:0.85rem; color:#e70808; margin-top:5px;">⚠️ Veuillez choisir correctement votre campus/CROUS pour que votre panier soit disponible.</p>
+
+    <div id="resultatReservation" style="margin-top:20px;"></div>
+  </div>
+</div>
+
+<script>
+
+  function toggleMenu() { document.getElementById('nav-links').classList.toggle('show'); }
+
+
+  const villesEtCampus = {
+    "Paris":["CROUS Paris","Université Sorbonne","Université Paris 1 Panthéon-Sorbonne"],
+    "Lyon":["CROUS Lyon","Université Lyon 1","Université Lyon 2"],
+    "Marseille":["CROUS Marseille","Université Aix-Marseille"],
+    "Toulouse":["CROUS Toulouse","Université Toulouse 1","Université Toulouse 2"],
+    "Nice":["CROUS Nice","Université Nice Sophia Antipolis"],
+    "Nantes":["CROUS Nantes","Université de Nantes"],
+    "Strasbourg":["CROUS Strasbourg","Université de Strasbourg"],
+    "Montpellier":["CROUS Montpellier","Université Montpellier"],
+    "Bordeaux":["CROUS Bordeaux","Université Bordeaux"],
+    "Lille":["CROUS Lille","Université de Lille"],
+    "Rennes":["CROUS Rennes","Université Rennes 1"],
+    "Reims":["CROUS Reims","Université de Reims"],
+    "Saint-Étienne":["CROUS Saint-Étienne","Université Jean Monnet"],
+    "Toulon":["CROUS Toulon","Université Toulon"],
+    "Grenoble":["CROUS Grenoble","Université Grenoble Alpes"],
+    "Dijon":["CROUS Dijon","Université de Bourgogne"],
+    "Angers":["CROUS Angers","Université d'Angers"],
+    "Le Mans":["CROUS Le Mans","Université du Maine"],
+    "Clermont-Ferrand":["CROUS Clermont-Ferrand","Université Clermont Auvergne"],
+    "Nancy":["CROUS Nancy","Université de Lorraine"],
+    "Caen":["CROUS Caen","Université de Caen"],
+    "Tours":["CROUS Tours","Université de Tours"],
+    "Orléans":["CROUS Orléans","Université d'Orléans"],
+    "Metz":["CROUS Metz","Université de Lorraine"],
+    "Brest":["CROUS Brest","Université de Bretagne Occidentale"]
+  };
+  const villeSelect=document.getElementById("ville"),campusSelect=document.getElementById("campus");
+  const basketSelect=document.getElementById("basket"),specialSelect=document.getElementById("specialBasket");
+
+  // villes
+  for(let ville in villesEtCampus){ let option=document.createElement("option"); option.value=ville; option.textContent=ville; villeSelect.appendChild(option); }
+
+  
+  villeSelect.addEventListener("change",()=>{
+    const v=villeSelect.value;
+    campusSelect.innerHTML='<option value="">-- Choisissez votre campus ou CROUS --</option>';
+    if(v){ campusSelect.disabled=false; villesEtCampus[v].forEach(c=>{ let opt=document.createElement("option"); opt.value=c; opt.textContent=c; campusSelect.appendChild(opt); }); } 
+    else campusSelect.disabled=true;
+  });
+
+ //panier intolerances
+  basketSelect.addEventListener("change",()=>{ basketSelect.value==="Panier complet – 5€"?specialSelect.style.display="block":(specialSelect.style.display="none",specialSelect.value=""); });
+
+  function openReservation(){document.getElementById("reservationModal").style.display="block"; document.getElementById("resultatReservation").innerHTML="";}
+  function closeReservation(){document.getElementById("reservationModal").style.display="none";}
+
+  function generateImpact(panier) {
+  let ecoMin, ecoMax, euroMin, euroMax;
+
+  if (panier.includes("2€")) {
+    ecoMin = 10; ecoMax = 20;
+    euroMin = 2.5; euroMax = 4;
+  } else if (panier.includes("3€")) {
+    ecoMin = 18; ecoMax = 30;
+    euroMin = 4; euroMax = 6;
+  } else {
+    ecoMin = 30; ecoMax = 50;
+    euroMin = 6; euroMax = 10;
+  }
+
+  const eco = Math.floor(Math.random() * (ecoMax - ecoMin + 1)) + ecoMin;
+  const euros = (Math.random() * (euroMax - euroMin) + euroMin).toFixed(2);
+
+  return { eco, euros };
+}
+
+
+async function confirmReservation() {
+  let panier = basketSelect.value;
+  if (specialSelect.value) panier += " (" + specialSelect.value + ")";
+  const campus = campusSelect.value;
+
+  if (!campus) {
+    alert("Veuillez sélectionner votre campus ou le CROUS.");
+    return;
+  }
+
+  const code = "INTJ-" + Math.random().toString(36).substr(2, 8).toUpperCase();
+  const qrUrl = "https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=" + code;
+
+  try {
+    const response = await fetch('http://127.0.0.1:5000/api/reservations', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ panier, campus, code, date: new Date().toISOString() })
+    });
+    const result = await response.json();
+    console.log(result);
+  } catch (err) {
+    console.error(err);
+    alert("Impossible d'enregistrer la réservation. Vérifiez que le serveur est démarré.");
+    return;
+  }
+
+  // ===== Générer l'impact =====
+  const impact = generateImpact(panier);
+
+  // ===== Affichage final =====
+  document.getElementById("resultatReservation").innerHTML = `
+    <p><strong>✅ Réservation confirmée</strong></p>
+    <p>${panier}</p>
+    <p>📍 Votre panier sera à récupérer à : <strong>${campus}</strong></p>
+    <p><strong>Code de retrait :</strong> ${code}</p>
+    <img src="${qrUrl}" alt="QR Code">
+    <p style="font-size:0.85rem; color:#666;">Ce QR code est à présenter lors du retrait du panier.</p>
+
+    <div class="impact-box">
+      <div class="impact-title">🌍 Impact positif généré</div>
+      <div class="impact-values">
+        🌱 Gaspillage évité : <span class="impact-highlight">${impact.eco}%</span>
+      </div>
+      <div class="impact-values">
+        💸 Économie réalisée : <span class="impact-highlight">${impact.euros} €</span>
+      </div>
+      <p style="font-size:0.85rem; margin-top:10px; color:#cfeee1;">
+        Merci de contribuer à une consommation plus responsable 💚
+      </p>
+    </div>
+  `;
+}
+
+
+</script>
+
+</body>
+</html>
