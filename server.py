@@ -20,7 +20,9 @@ CREATE TABLE IF NOT EXISTS reservations (
 )
 ''')
 conn.close()
-
+@app.route('/')
+def home():
+    return jsonify({"status": "API running"})
 # Ajouter une réservation
 @app.route('/api/reservations', methods=['POST'])
 def add_reservation():
