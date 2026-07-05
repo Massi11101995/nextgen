@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, request, jsonify
+from flask import Flask, render_template, request, jsonify
 from flask_cors import CORS  
 import sqlite3
 
@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS reservations (
 conn.close()
 @app.route('/')
 def home():
-    return jsonify({"status": "API running"})
+    return render_template('index.html')
 # Ajouter une réservation
 @app.route('/api/reservations', methods=['POST'])
 def add_reservation():
